@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    username: springboot
+    password: springboot
+    url: jdbc:postgresql://localhost:5432/postgres
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+
+#    hibernate:
+#      ddl-auto: validate
+
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  flyway:
+    create-schemas: true
+    schemas: postgres
+    baseline-on-migrate: true
+    enabled: true
+
