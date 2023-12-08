@@ -28,7 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = {"spring.jpa.hibernate.ddl-auto = validate", "spring.flyway.enabled = true"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
 public class BookControllerTest {
@@ -38,7 +39,7 @@ public class BookControllerTest {
 
     @Container
     public static PostgreSQLContainer database =
-            new PostgreSQLContainer(DockerImageName.parse("postgres:alpine:3.18"))
+            new PostgreSQLContainer(DockerImageName.parse("postgres:latest"))
                     .withUsername("springboot")
                     .withPassword("springboot")
                     .withDatabaseName("schema_book");
@@ -46,6 +47,8 @@ public class BookControllerTest {
     @DynamicPropertySource
     static void setDataSourceProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", database::getJdbcUrl);
+        registry.add("spring.datasource.username", database::getUsername);
+        registry.add("spring.datasource.password", database::getPassword);
     }
 
     @Autowired
