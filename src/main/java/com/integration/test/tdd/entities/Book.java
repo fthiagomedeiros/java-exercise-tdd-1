@@ -15,7 +15,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "BOOKS")
+@Table
 @NoArgsConstructor
 @Getter
 @Setter
@@ -31,6 +31,7 @@ public class Book {
     private String title;
     private String author;
     private String genre;
+    private String editor;
 
     @Override
     public String toString() {
