@@ -1,106 +1,105 @@
 {
-  "9780321160768":{
-    "url":"https://openlibrary.org/books/OL3679924M/Real_time_UML",
-    "key":"/books/OL3679924M",
-    "title":"Real time UML",
-    "subtitle":"advances in the UML for real-time systems",
-    "authors":[
+  "9780321160768": {
+    "url": "https://openlibrary.org/books/OL3679924M/Real_time_UML",
+    "key": "/books/OL3679924M",
+    "title": "Real time UML",
+    "subtitle": "advances in the UML for real-time systems",
+    "authors": [
       {
-        "url":"https://openlibrary.org/authors/OL30355A/Bruce_Powel_Douglass",
-        "name":"Bruce Powel Douglass"
+        "url": "https://openlibrary.org/authors/OL30355A/Bruce_Powel_Douglass",
+        "name": "Bruce Powel Douglass"
       },
       {
-        "url":"https://openlibrary.org/authors/OL224414A/David_Harel",
-        "name":"David Harel"
+        "url": "https://openlibrary.org/authors/OL224414A/David_Harel",
+        "name": "David Harel"
       }
     ],
-    "number_of_pages":694,
-    "pagination":"xlix, 694 p. :",
-    "by_statement":"Bruce Powel Douglass.",
-    "identifiers":{
-      "goodreads":[
+    "number_of_pages": 694,
+    "pagination": "xlix, 694 p. :",
+    "by_statement": "Bruce Powel Douglass.",
+    "identifiers": {
+      "goodreads": [
         "1592003"
       ],
-      "librarything":[
+      "librarything": [
         "736279"
       ],
-      "isbn_10":[
+      "isbn_10": [
         "0321160762"
       ],
-      "lccn":[
+      "lccn": [
         "2003022902"
       ],
-      "oclc":[
+      "oclc": [
         "53356290"
       ],
-      "openlibrary":[
+      "openlibrary": [
         "OL3679924M"
       ]
     },
-    "classifications":{
-      "lc_classifications":[
+    "classifications": {
+      "lc_classifications": [
         "QA76.6 .D658 2004",
         "QA76.6D658 2004"
       ],
-      "dewey_decimal_class":[
+      "dewey_decimal_class": [
         "005.1/17"
       ]
     },
-    "publishers":[
+    "publishers": [
       {
-        "name":"Addison-Wesley"
+        "name": "Addison-Wesley"
       }
     ],
-    "publish_places":[
+    "publish_places": [
       {
-        "name":"Boston"
+        "name": "Boston"
       }
     ],
-    "publish_date":"2004",
-    "subjects":[
+    "publish_date": "2004",
+    "subjects": [
       {
-        "name":"Embedded computer systems",
-        "url":"https://openlibrary.org/subjects/embedded_computer_systems"
+        "name": "Embedded computer systems",
+        "url": "https://openlibrary.org/subjects/embedded_computer_systems"
       },
       {
-        "name":"Object-oriented methods (Computer science)",
-        "url":"https://openlibrary.org/subjects/object-oriented_methods_(computer_science)"
+        "name": "Object-oriented methods (Computer science)",
+        "url": "https://openlibrary.org/subjects/object-oriented_methods_(computer_science)"
       },
       {
-        "name":"Programming",
-        "url":"https://openlibrary.org/subjects/programming"
+        "name": "Programming",
+        "url": "https://openlibrary.org/subjects/programming"
       },
       {
-        "name":"Real-time data processing",
-        "url":"https://openlibrary.org/subjects/real-time_data_processing"
+        "name": "Real-time data processing",
+        "url": "https://openlibrary.org/subjects/real-time_data_processing"
       },
       {
-        "name":"Object-oriented methods (computer science)",
-        "url":"https://openlibrary.org/subjects/object-oriented_methods_(computer_science)"
+        "name": "Object-oriented methods (computer science)",
+        "url": "https://openlibrary.org/subjects/object-oriented_methods_(computer_science)"
       },
       {
-        "name":"Real-time programming",
-        "url":"https://openlibrary.org/subjects/real-time_programming"
+        "name": "Real-time programming",
+        "url": "https://openlibrary.org/subjects/real-time_programming"
       },
       {
-        "name":"Uml (computer science)",
-        "url":"https://openlibrary.org/subjects/uml_(computer_science)"
+        "name": "Uml (computer science)",
+        "url": "https://openlibrary.org/subjects/uml_(computer_science)"
       }
     ],
-    "notes":"Includes bibliographical references and index.",
-    "ebooks":[
+    "notes": "Includes bibliographical references and index.",
+    "ebooks": [
       {
-        "preview_url":"https://archive.org/details/realtimeumladvan0000doug",
-        "availability":"restricted",
-        "formats":{
-
+        "preview_url": "https://archive.org/details/realtimeumladvan0000doug",
+        "availability": "restricted",
+        "formats": {
         }
       }
     ],
-    "cover":{
-      "small":"https://covers.openlibrary.org/b/id/192667-S.jpg",
-      "medium":"https://covers.openlibrary.org/b/id/192667-M.jpg",
-      "large":"https://covers.openlibrary.org/b/id/192667-L.jpg"
+    "cover": {
+      "small": "https://covers.openlibrary.org/b/id/192667-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/192667-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/192667-L.jpg"
     }
   }
 }

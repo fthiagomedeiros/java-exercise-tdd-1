@@ -1,3 +1,5 @@
+DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS Book (
@@ -5,6 +7,7 @@ CREATE TABLE IF NOT EXISTS Book (
     ISBN             VARCHAR(256),
     TITLE            VARCHAR(256),
     AUTHOR           VARCHAR(256),
-    GENRE            VARCHAR(256),
-    PRIMARY KEY (ID)
-    );
+    GENRE            VARCHAR(256)
+);
+
+ALTER TABLE Book ADD CONSTRAINT PK_Book PRIMARY KEY (ID);

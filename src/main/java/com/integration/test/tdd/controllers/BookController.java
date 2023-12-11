@@ -25,15 +25,9 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO,
-                                              UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
         BookDTO response = bookService.createBook(bookDTO);
         logger.info(String.format("Book created with ISBN %s", bookDTO.getIsbn()));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-//        return ResponseEntity
-//                .created(uriComponentsBuilder.path("/api/book/{bookId}")
-//                .build(response.getId()))
-//                .build();
     }
 }
