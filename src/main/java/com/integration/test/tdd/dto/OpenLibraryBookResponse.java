@@ -9,7 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OpenLibraryBookResponse {
-    private String url;
-    private String key;
     private String title;
 }
