@@ -34,7 +34,8 @@ public class BookService {
 
     public BookDTO createBook(BookDTO bookDTO) {
         Book book = bookMapper.toBook(bookDTO);
-        Map<String, OpenLibraryBookResponse> bookFetched = bookClient.fetchBook(bookDTO.getIsbn());
+        Map<String, OpenLibraryBookResponse> bookFetched = bookClient
+                .fetchBook(bookDTO.getIsbn());
 
         String bookTitle = bookFetched.get(bookDTO.getIsbn()).getTitle();
         book.setTitle(bookTitle);
