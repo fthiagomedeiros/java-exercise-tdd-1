@@ -13,10 +13,6 @@ import java.util.UUID;
 public class BookDTO {
     private UUID id;
     private String isbn;
-    private String title;
-    private String author;
-    private String genre;
-    private String editor;
 
     @Override
     public String toString() {

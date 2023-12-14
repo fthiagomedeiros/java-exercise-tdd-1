@@ -86,7 +86,8 @@ public class BookControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body.toString()))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.isbn", is("9780321160768")));
+                .andExpect(jsonPath("$.isbn", is("9780321160768")))
+                .andExpect(jsonPath("$.title", is("Real time UML - MOCKED BOOK TITLE")));
     }
 
 }

@@ -4,13 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @NoArgsConstructor
 @Getter
 @Setter
-public class OpenLibraryBookResponse {
-    private String title;
-    List<Author> authors;
-    List<Publishers> publishers;
+public class Author {
+    private String name;
 }
