@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
 
+  private static final String TECH_BOOK = "IT";
   private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
   private final BookRepository bookRepository;
@@ -53,6 +54,8 @@ public class BookService {
     book.setEditor(publishers.stream()
             .map(Publishers::getName)
             .collect(Collectors.joining(", ")));
+
+    book.setGenre(TECH_BOOK);
 
     Book result = bookRepository.save(book);
     return bookMapper.toBookDto(result);
