@@ -87,7 +87,7 @@ public class BookControllerTest {
                         .content(body.toString()))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.isbn", is("9780321160768")))
-                .andExpect(jsonPath("$.title", is("Real time UML - MOCKED BOOK TITLE")));
+                .andExpect(jsonPath("$.title", is("Real time UML")));
     }
 
 }
