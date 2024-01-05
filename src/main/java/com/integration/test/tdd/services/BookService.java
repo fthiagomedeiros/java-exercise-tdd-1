@@ -33,20 +33,16 @@ public class BookService {
 
   private final OpenLibraryApiClientFeign bookClient;
 
-  private final OpenLibraryApiClientRestTemplate bookClient2;
-
   private final ObjectMapper objectMapper;
 
   public BookService(
       BookRepository bookRepository,
       BookMapper bookMapper,
       OpenLibraryApiClientFeign bookClient,
-      OpenLibraryApiClientRestTemplate bookClient2,
       ObjectMapper objectMapper) {
     this.bookRepository = bookRepository;
     this.bookMapper = bookMapper;
     this.bookClient = bookClient;
-    this.bookClient2 = bookClient2;
     this.objectMapper = objectMapper;
   }
 
