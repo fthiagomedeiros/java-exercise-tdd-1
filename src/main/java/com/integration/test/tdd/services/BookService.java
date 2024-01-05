@@ -1,5 +1,7 @@
 package com.integration.test.tdd.services;
 
+import static org.hibernate.sql.ast.spi.SqlAppender.COMMA_SEPARATOR;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.test.tdd.dto.BookDTO;
 import com.integration.test.tdd.dto.OpenLibraryBookResponse;
@@ -33,8 +35,6 @@ public class BookService {
 
   private final OpenLibraryApiClientRestTemplate bookClient2;
 
-  private final OpenLibraryToBookMapper openLibraryToBookMapper;
-
   private final ObjectMapper objectMapper;
 
   public BookService(
@@ -42,14 +42,12 @@ public class BookService {
       BookMapper bookMapper,
       OpenLibraryApiClientFeign bookClient,
       OpenLibraryApiClientRestTemplate bookClient2,
-      ObjectMapper objectMapper,
-      OpenLibraryToBookMapper openLibraryToBookMapper) {
+      ObjectMapper objectMapper) {
     this.bookRepository = bookRepository;
     this.bookMapper = bookMapper;
     this.bookClient = bookClient;
     this.bookClient2 = bookClient2;
     this.objectMapper = objectMapper;
-    this.openLibraryToBookMapper = openLibraryToBookMapper;
   }
 
   public BookDTO createBook(BookDTO bookDTO) {
@@ -65,17 +63,16 @@ public class BookService {
     List<Author> authors = response.getAuthors();
     book.setAuthor(authors.stream()
             .map(Author::getName)
-            .collect(Collectors.joining(", ")));
+            .collect(Collectors.joining(COMMA_SEPARATOR)));
 
     List<Publishers> publishers = response.getPublishers();
     book.setEditor(publishers.stream()
             .map(Publishers::getName)
-            .collect(Collectors.joining(", ")));
+            .collect(Collectors.joining(COMMA_SEPARATOR)));
 
     book.setGenre(TECH_BOOK);
 
     Book result = bookRepository.save(book);
     return bookMapper.toBookDto(result);
-//    return openLibraryToBookMapper.toBookDto(response);
   }
 }
