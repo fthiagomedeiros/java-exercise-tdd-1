@@ -20,3 +20,7 @@ flyway:
   schemas: schema_book
   baselineOnMigrate: true
   enabled: true
+
+clients:
+  open-library:
+    base-url: https://localhost:8080/shouldBeMocked
