@@ -9,4 +9,9 @@ import lombok.Setter;
 @Setter
 public class Publishers {
     private String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -2,6 +2,7 @@ package com.integration.test.tdd.openlibrary;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.test.tdd.dto.OpenLibraryBookResponse;
 import io.netty.channel.ChannelOption;
@@ -55,6 +56,7 @@ public class OpenLibraryApiWebClientTest {
                         .addHandlerLast(new ReadTimeoutHandler(1))
                         .addHandlerLast(new WriteTimeoutHandler(1)));
 
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     this.cut = new OpenLibraryApiWebClient(
             WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
@@ -76,7 +78,9 @@ public class OpenLibraryApiWebClientTest {
     Map<String, OpenLibraryBookResponse> result = cut.fetchBook(ISBN);
     OpenLibraryBookResponse data = result.get(ISBN);
 
-    assertEquals("9780321160768", data.getTitle());
+    assertEquals("Real time UML - MOCKED BOOK TITLE", data.getTitle());
+    assertEquals(2, data.getAuthors().size());
+    assertEquals("Addison-Wesley", data.getPublishers().get(0).toString());
   }
 
   @AfterEach
