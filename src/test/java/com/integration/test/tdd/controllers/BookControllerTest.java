@@ -7,11 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.test.tdd.dto.BookDTO;
-import com.integration.test.tdd.dto.OpenLibraryBookResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Assertions;
@@ -87,7 +84,6 @@ public class BookControllerTest {
         MockResponse mockResponse = new MockResponse()
             .addHeader("Content-Type", "application/json; charset=utf-8")
             .setBody(openLibraryBookResponse.getContentAsString(StandardCharsets.UTF_8));
-
         mockWebServer.enqueue(mockResponse);
 
         this.mockMvc
