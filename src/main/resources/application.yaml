@@ -24,3 +24,6 @@ flyway:
 clients:
   open-library:
     base-url: https://openlibrary.org
+
+sqs:
+  book-synchronization-queue: book-queue

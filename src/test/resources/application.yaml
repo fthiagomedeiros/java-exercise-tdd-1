@@ -24,3 +24,6 @@ flyway:
 clients:
   open-library:
     base-url: https://localhost:8080/shouldBeMocked
+
+sqs:
+  book-synchronization-queue: book-queue

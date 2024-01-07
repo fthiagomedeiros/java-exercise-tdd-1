@@ -13,22 +13,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.util.retry.Retry;
 
 @Component
+@AllArgsConstructor
 public class OpenLibraryApiWebClient {
 
   private final WebClient webClient;
 
   private final ObjectMapper mapper;
-
-  public OpenLibraryApiWebClient(WebClient webClient, ObjectMapper mapper) {
-    this.webClient = webClient;
-    this.mapper = mapper;
-  }
 
   @SneakyThrows
   public Map<String, OpenLibraryBookResponse> fetchBook(String isbn) {
