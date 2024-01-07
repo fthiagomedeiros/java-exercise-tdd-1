@@ -1,6 +1,5 @@
 package com.integration.test.tdd.sqsmessaging;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.integration.test.tdd.entities.Book;
 import com.integration.test.tdd.openlibrary.OpenLibraryApiWebClient;
 import com.integration.test.tdd.repositories.BookRepository;
@@ -8,10 +7,11 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-@Component
 @AllArgsConstructor
+@Component
 public class BookListener {
 
   private final Logger logger = LoggerFactory.getLogger(BookListener.class);
@@ -20,7 +20,7 @@ public class BookListener {
   private final OpenLibraryApiWebClient client;
 
   @SqsListener("${sqs.book-synchronization-queue}")
-  public void consumeBookUpdates(final BookSynchronization bookSynchronization) {
+  public void consumeBookUpdates(final @Payload BookSynchronization bookSynchronization) {
     logger.info(bookSynchronization.toString());
 
     if (bookSynchronization.getIsbn() == null || bookSynchronization.getAuthor().isBlank()) {
@@ -31,12 +31,12 @@ public class BookListener {
     Book bookToUpdate = repository.findByIsbn(bookSynchronization.getIsbn());
 
     if (bookToUpdate == null) {
-      logger.warn(String.format("The book with ISBN %s has not been found", bookSynchronization.getIsbn()));
+      logger.warn(
+          String.format("The book with ISBN %s has not been found", bookSynchronization.getIsbn()));
       return;
     }
 
     bookToUpdate.setAuthor(bookSynchronization.getAuthor());
     repository.save(bookToUpdate);
   }
-
 }
