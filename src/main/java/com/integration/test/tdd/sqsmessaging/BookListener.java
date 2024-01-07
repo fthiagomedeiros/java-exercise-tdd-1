@@ -23,8 +23,8 @@ public class BookListener {
   public void consumeBookUpdates(final BookSynchronization bookSynchronization) {
     logger.info(bookSynchronization.toString());
 
-    if (bookSynchronization.getIsbn() == null) {
-      logger.warn("The ISBN is null");
+    if (bookSynchronization.getIsbn() == null || bookSynchronization.getAuthor().isBlank()) {
+      logger.warn("Please provide the ISBN and author changes");
       return;
     }
 
