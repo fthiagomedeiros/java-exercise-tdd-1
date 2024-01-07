@@ -2,14 +2,10 @@ package com.integration.test.tdd.sqsmessaging;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Getter
 @Setter
 @ToString
