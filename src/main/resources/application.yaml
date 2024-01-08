@@ -20,3 +20,10 @@ flyway:
   schemas: schema_book
   baselineOnMigrate: true
   enabled: true
+
+clients:
+  open-library:
+    base-url: https://openlibrary.org
+
+sqs:
+  book-synchronization-queue: book-queue

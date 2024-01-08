@@ -9,9 +9,7 @@ import com.integration.test.tdd.dto.Author;
 import com.integration.test.tdd.dto.Publishers;
 import com.integration.test.tdd.entities.Book;
 import com.integration.test.tdd.mappers.BookMapper;
-import com.integration.test.tdd.mappers.OpenLibraryToBookMapper;
-import com.integration.test.tdd.openlibrary.OpenLibraryApiClientFeign;
-import com.integration.test.tdd.openlibrary.OpenLibraryApiClientRestTemplate;
+import com.integration.test.tdd.openlibrary.OpenLibraryApiWebClient;
 import com.integration.test.tdd.repositories.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +29,14 @@ public class BookService {
 
   private final BookMapper bookMapper;
 
-  private final OpenLibraryApiClientFeign bookClient;
+  private final OpenLibraryApiWebClient bookClient;
 
   private final ObjectMapper objectMapper;
 
   public BookService(
       BookRepository bookRepository,
       BookMapper bookMapper,
-      OpenLibraryApiClientFeign bookClient,
+      OpenLibraryApiWebClient bookClient,
       ObjectMapper objectMapper) {
     this.bookRepository = bookRepository;
     this.bookMapper = bookMapper;
