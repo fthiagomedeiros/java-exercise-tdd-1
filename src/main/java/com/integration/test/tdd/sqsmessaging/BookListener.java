@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
@@ -19,8 +18,8 @@ public class BookListener {
   private final BookRepository repository;
   private final OpenLibraryApiWebClient client;
 
-  @SqsListener("${sqs.book-synchronization-queue}")
-  public void consumeBookUpdates(final @Payload BookSynchronization bookSynchronization) {
+  @SqsListener("book-queue")
+  public void consumeBookUpdates(BookSynchronization bookSynchronization) {
     logger.info(bookSynchronization.toString());
 
     if (bookSynchronization.getIsbn() == null || bookSynchronization.getAuthor().isBlank()) {
