@@ -49,7 +49,7 @@ class BookListenerSliceTest {
   }
 
   @TestConfiguration
-  static class TestConfig {
+  public static class TestConfig {
 
     @Primary
     @Bean
@@ -60,7 +60,7 @@ class BookListenerSliceTest {
                   new AWSStaticCredentialsProvider(
                       new BasicAWSCredentials(
                           localStack.getAccessKey(), localStack.getSecretKey())))
-              .withEndpointConfiguration(new EndpointConfiguration(localStack.getEndpoint().toString(), US_EAST_1.getName()))
+              .withEndpointConfiguration(new EndpointConfiguration("http://localhost:32769", US_EAST_1.getName()))
               .build();
 
       sqs.createQueue("book-queue");

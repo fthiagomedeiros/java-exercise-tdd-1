@@ -27,3 +27,15 @@ clients:
 
 sqs:
   book-synchronization-queue: book-queue
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    credentials:
+      access-key: ak
+      secret-key: sk
+    end-point:
+      uri: https://sqs.us-east-1.amazonaws.com/cn/book-queue
+    stack:
+      auto: false

@@ -3,10 +3,10 @@ package com.integration.test.tdd.sqsmessaging;
 import com.integration.test.tdd.entities.Book;
 import com.integration.test.tdd.openlibrary.OpenLibraryApiWebClient;
 import com.integration.test.tdd.repositories.BookRepository;
+import io.awspring.cloud.sqs.annotation.SqsListener;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
