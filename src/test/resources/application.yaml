@@ -4,6 +4,15 @@ spring:
     password: springboot
     url: jdbc:postgresql://localhost:5432/schema_book
 
+  cloud:
+    aws:
+      endpoint: endpoint
+      region:
+        static: us-east-1
+      credentials:
+        access-key: ak
+        secret-key: sk
+
   jpa:
     show-sql: true
     generate-ddl: true
@@ -23,19 +32,7 @@ flyway:
 
 clients:
   open-library:
-    base-url: https://localhost:8080/shouldBeMocked
+    base-url: https://openlibrary.org
 
 sqs:
   book-synchronization-queue: book-queue
-
-cloud:
-  aws:
-    region:
-      static: us-east-1
-    credentials:
-      access-key: test
-      secret-key: test
-    end-point:
-      uri: https://sqs.us-east-1.amazonaws.com/cn/book-queue
-    stack:
-      auto: false

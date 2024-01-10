@@ -41,7 +41,7 @@ public class OpenLibraryApiWebClient {
                         .build())
             .retrieve()
             .bodyToMono(ObjectNode.class)
-            .retryWhen(Retry.fixedDelay(2, Duration.ofMillis(200)))
+//            .retryWhen(Retry.fixedDelay(5, Duration.ofMillis(500)))
             .block();
 
     OpenLibraryBookResponse openLibraryBookResponse = new OpenLibraryBookResponse();
