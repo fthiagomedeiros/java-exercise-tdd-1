@@ -4,13 +4,11 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.testcontainers.containers.localstack.LocalStackContainer.Service.SQS;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.integration.test.tdd.base.BaseSqsIntegrationTest;
 import com.integration.test.tdd.dto.BookDTO;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,8 +25,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.containers.localstack.LocalStackContainer;
-import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -38,7 +34,7 @@ import org.testcontainers.utility.DockerImageName;
         properties = {"spring.jpa.hibernate.ddl-auto = validate", "spring.flyway.enabled = true"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-public class BookControllerTest {
+public class BookControllerTest extends BaseSqsIntegrationTest {
 
     private static final String ISBN = "9780321160768";
 
@@ -48,12 +44,6 @@ public class BookControllerTest {
                     .withUsername("springboot")
                     .withPassword("springboot")
                     .withDatabaseName("schema_book");
-
-    @Container
-    static LocalStackContainer localStack = new LocalStackContainer(
-        DockerImageName.parse("localstack/localstack:3.0.2"))
-        .withServices(Service.SQS)
-        .withReuse(true);
 
     private MockWebServer mockWebServer;
 
@@ -71,7 +61,7 @@ public class BookControllerTest {
 
     @BeforeAll
     static void beforeAll() throws IOException, InterruptedException {
-        localStack.execInContainer("awslocal", "sqs", "create-queue", "--queue-name", "QUEUE_NAME");
+        getLocalStackContainer().execInContainer("awslocal", "sqs", "create-queue", "--queue-name", QUEUE_NAME);
     }
 
     @DynamicPropertySource
@@ -79,12 +69,6 @@ public class BookControllerTest {
         registry.add("spring.datasource.url", database::getJdbcUrl);
         registry.add("spring.datasource.username", database::getUsername);
         registry.add("spring.datasource.password", database::getPassword);
-
-        registry.add("sqs.book-synchronization-queue", () -> "QUEUE_NAME");
-        registry.add("spring.cloud.aws.credentials.secret-key", () -> "foo");
-        registry.add("spring.cloud.aws.credentials.access-key", () -> "bar");
-        registry.add("spring.cloud.aws.region.static", () -> localStack.getRegion());
-        registry.add("spring.cloud.aws.endpoint", () -> localStack.getEndpointOverride(SQS).toString());
     }
 
     @BeforeEach

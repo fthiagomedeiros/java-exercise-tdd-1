@@ -4,6 +4,7 @@ import com.integration.test.tdd.entities.Book;
 import com.integration.test.tdd.openlibrary.OpenLibraryApiWebClient;
 import com.integration.test.tdd.repositories.BookRepository;
 import io.awspring.cloud.sqs.annotation.SqsListener;
+import java.security.InvalidParameterException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,12 @@ public class BookListener {
   private final BookRepository repository;
   private final OpenLibraryApiWebClient client;
 
-  @SqsListener("book-queue")
+  @SqsListener("${sqs.book-synchronization-queue}")
   public void consumeBookUpdates(BookSynchronization bookSynchronization) {
     logger.info(bookSynchronization.toString());
 
-    if (bookSynchronization.getIsbn() == null || (bookSynchronization.getAuthor()!= null && bookSynchronization.getAuthor().isBlank())) {
-      logger.warn("Please provide the ISBN and author changes");
+    if (bookSynchronization.getIsbn() == null || (bookSynchronization.getAuthor() == null)) {
+      logger.warn("Invalid payload cannot be processed");
       return;
     }
 
