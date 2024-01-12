@@ -35,4 +35,4 @@ clients:
     base-url: https://openlibrary.org
 
 sqs:
-  book-synchronization-queue: book-queue
+  book-synchronization-queue: book-queue-test

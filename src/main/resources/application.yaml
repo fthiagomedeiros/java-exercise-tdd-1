@@ -1,3 +1,6 @@
+aws:
+  account: 000000
+
 spring:
   datasource:
     username: postgres
@@ -6,12 +9,9 @@ spring:
 
   cloud:
     aws:
-      endpoint: endpoint
+      endpoint: https://sqs.us-east-1.amazonaws.com/${aws.account}/mbook-queue
       region:
         static: us-east-1
-      credentials:
-        access-key: ak
-        secret-key: sk
 
   jpa:
     show-sql: true
@@ -35,4 +35,4 @@ clients:
     base-url: https://openlibrary.org
 
 sqs:
-  book-synchronization-queue: book-queue
+  book-synchronization-queue: mbook-queue
