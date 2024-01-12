@@ -4,6 +4,15 @@ spring:
     password: springboot
     url: jdbc:postgresql://localhost:5432/schema_book
 
+  cloud:
+    aws:
+      endpoint: endpoint
+      region:
+        static: us-east-1
+      credentials:
+        access-key: ak
+        secret-key: sk
+
   jpa:
     show-sql: true
     generate-ddl: true
@@ -20,3 +29,10 @@ flyway:
   schemas: schema_book
   baselineOnMigrate: true
   enabled: true
+
+clients:
+  open-library:
+    base-url: https://openlibrary.org
+
+sqs:
+  book-synchronization-queue: book-queue-test

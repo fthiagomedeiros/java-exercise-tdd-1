@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, UUID> {}
+public interface BookRepository extends JpaRepository<Book, UUID> {
+  Book findByIsbn(String isbn);
+}

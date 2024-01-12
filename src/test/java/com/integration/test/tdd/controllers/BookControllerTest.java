@@ -1,12 +1,19 @@
 package com.integration.test.tdd.controllers;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.integration.test.tdd.base.BaseSqsIntegrationTest;
 import com.integration.test.tdd.dto.BookDTO;
-import com.integration.test.tdd.dto.OpenLibraryBookResponse;
-import com.integration.test.tdd.openlibrary.OpenLibraryApiClientFeign;
+import java.io.IOException;
+import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -22,23 +29,15 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.util.Map;
-
-import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {"spring.jpa.hibernate.ddl-auto = validate", "spring.flyway.enabled = true"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-public class BookControllerTest {
+public class BookControllerTest extends BaseSqsIntegrationTest {
 
     private static final String ISBN = "9780321160768";
+
     @Container
     public static PostgreSQLContainer database =
             new PostgreSQLContainer(DockerImageName.parse("postgres:latest"))
@@ -46,18 +45,10 @@ public class BookControllerTest {
                     .withPassword("springboot")
                     .withDatabaseName("schema_book");
 
-    @DynamicPropertySource
-    static void setDataSourceProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", database::getJdbcUrl);
-        registry.add("spring.datasource.username", database::getUsername);
-        registry.add("spring.datasource.password", database::getPassword);
-    }
+    private MockWebServer mockWebServer;
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Mock
-    private OpenLibraryApiClientFeign bookClient;
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -68,6 +59,24 @@ public class BookControllerTest {
     @Value("classpath:/stubs/openlibrary/success-9780321160768.json")
     private Resource openLibraryBookResponse;
 
+    @BeforeAll
+    static void beforeAll() throws IOException, InterruptedException {
+        getLocalStackContainer().execInContainer("awslocal", "sqs", "create-queue", "--queue-name", QUEUE_NAME);
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", database::getJdbcUrl);
+        registry.add("spring.datasource.username", database::getUsername);
+        registry.add("spring.datasource.password", database::getPassword);
+    }
+
+    @BeforeEach
+    public void setup() throws IOException {
+        this.mockWebServer = new MockWebServer();
+        this.mockWebServer.start();
+    }
+
     @Test
     public void contextLoads() {
         Assertions.assertNotNull(mockMvc);
@@ -76,10 +85,6 @@ public class BookControllerTest {
     @Test
     public void shouldCreateSuccessBook() throws Exception {
         BookDTO body = objectMapper.readValue(request9780321160768.getFile(), BookDTO.class);
-
-        Map<String, OpenLibraryBookResponse> httpBookResponse =
-                objectMapper.readValue(openLibraryBookResponse.getFile(), Map.class);
-        when(bookClient.fetchBook(eq(ISBN))).thenReturn(httpBookResponse);
 
         this.mockMvc
                 .perform(post("/api/book")
