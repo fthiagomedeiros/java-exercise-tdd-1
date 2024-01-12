@@ -47,6 +47,7 @@ public class BookListenerSqsSliceTestIT extends BaseSqsIntegrationTest {
 
   @Test
   void shouldStartSQS() {
+    logger.info("Validating contexts");
     assertNotNull(cut);
     assertNotNull(getLocalStackContainer());
   }

@@ -8,7 +8,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer.Service;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -19,11 +18,14 @@ public abstract class BaseSqsIntegrationTest {
 
   private static final String LOCAL_STACK_VERSION = "localstack/localstack:3.0.2";
 
-  @Container
   static LocalStackContainer localstack =
       new LocalStackContainer(DockerImageName.parse(LOCAL_STACK_VERSION))
           .withServices(Service.SQS)
           .withReuse(true);
+
+  static {
+    getLocalStackContainer().start();
+  }
 
   protected static final String QUEUE_NAME = UUID.randomUUID().toString();
   protected static final String ISBN = "9780596004651";
