@@ -8,6 +8,7 @@ import com.integration.test.tdd.dto.OpenLibraryBookResponse;
 import com.integration.test.tdd.dto.Author;
 import com.integration.test.tdd.dto.Publishers;
 import com.integration.test.tdd.entities.Book;
+import com.integration.test.tdd.exceptions.BookAlreadyExistsException;
 import com.integration.test.tdd.mappers.BookMapper;
 import com.integration.test.tdd.openlibrary.OpenLibraryApiWebClient;
 import com.integration.test.tdd.repositories.BookRepository;
@@ -44,7 +45,13 @@ public class BookService {
     this.objectMapper = objectMapper;
   }
 
-  public BookDTO createBook(BookDTO bookDTO) {
+  public BookDTO createBook(BookDTO bookDTO) throws Exception {
+
+    Book mBook = bookRepository.findByIsbn(bookDTO.getIsbn());
+    if (mBook != null) {
+      throw new BookAlreadyExistsException();
+    }
+
     Book book = bookMapper.toBook(bookDTO);
     Map<String, OpenLibraryBookResponse> bookFetched = bookClient.fetchBook(bookDTO.getIsbn());
 

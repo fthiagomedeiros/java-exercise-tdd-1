@@ -36,3 +36,7 @@ clients:
 
 sqs:
   book-synchronization-queue: mbook-queue
+
+server:
+  error:
+    include-message: always
