@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integration.test.tdd.base.BaseSqsIntegrationTest;
 import com.integration.test.tdd.dto.BookDTO;
-import com.integration.test.tdd.exceptions.BookAlreadyExistsException;
 import java.io.IOException;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +29,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -41,6 +41,7 @@ import org.testcontainers.utility.DockerImageName;
     properties = {"spring.jpa.hibernate.ddl-auto = validate", "spring.flyway.enabled = true"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
+@Transactional  //Transactional here rollbacks the database changes after each test execution
 public class BookControllerTest extends BaseSqsIntegrationTest {
 
   private static final String ISBN = "9780321160768";
@@ -127,6 +128,19 @@ public class BookControllerTest extends BaseSqsIntegrationTest {
         .perform(get("/api/book")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.size()", is(2)));
+        .andExpect(jsonPath("$.size()", is(3)));
+  }
+
+  @Test
+  public void shouldFetchNoBooks() throws Exception {
+    //This test is for testing the transactional annotation in this class
+    //@Transactional works as expected in test execution
+    //I could have also called deleteAll() in the books repository too within a @BeforeEach method
+
+    this.mockMvc
+        .perform(get("/api/book")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.size()", is(0)));
   }
 }

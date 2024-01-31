@@ -78,8 +78,7 @@ public class BookService {
   }
 
   public List<BookDTO> fetchAllBooks() {
-    return bookRepository.findAll()
-        .stream().map(bookMapper::toBookDto)
-        .collect(Collectors.toList());
+    List<Book> books = bookRepository.findAll();
+    return bookMapper.map(books);
   }
 }
